@@ -1,5 +1,6 @@
 import { aiVsFatArticle } from "./posts/ai-vs-fat";
 import { fromResentmentArticle } from "./posts/from-resentment";
+import { moneyAccessArticle } from "./posts/money-access";
 
 export const TELEGRAM_POST_URL = "https://t.me/Pradazhizny/328";
 export const TELEGRAM_POST_2_URL = "https://t.me/Pradazhizny/329";
@@ -17,14 +18,29 @@ export const article = {
   views: "269",
 };
 
-export type PostId = "wellness-economy" | "ai-vs-fat" | "from-resentment";
-export type PostLayout = "wellness-economy" | "ai-vs-fat" | "from-resentment";
+export type PostId =
+  | "money-access"
+  | "wellness-economy"
+  | "ai-vs-fat"
+  | "from-resentment";
+export type PostLayout =
+  | "money-access"
+  | "wellness-economy"
+  | "ai-vs-fat"
+  | "from-resentment";
 
 export type PostConfig = {
   id: PostId;
   slug: string;
   layout: PostLayout;
   article: typeof article;
+};
+
+const moneyAccessPost: PostConfig = {
+  id: "money-access",
+  slug: "money-access",
+  layout: "money-access",
+  article: moneyAccessArticle,
 };
 
 const wellnessEconomyPost: PostConfig = {
@@ -49,18 +65,20 @@ const fromResentmentPost: PostConfig = {
 };
 
 export const posts: PostConfig[] = [
+  moneyAccessPost,
   wellnessEconomyPost,
   aiVsFatPost,
   fromResentmentPost,
 ];
 
 const postsById: Record<PostId, PostConfig> = {
+  "money-access": moneyAccessPost,
   "wellness-economy": wellnessEconomyPost,
   "ai-vs-fat": aiVsFatPost,
   "from-resentment": fromResentmentPost,
 };
 
-export const currentPostId: PostId = "wellness-economy";
+export const currentPostId: PostId = "money-access";
 export const currentPost = postsById[currentPostId];
 
 export function getPostById(id: PostId) {
