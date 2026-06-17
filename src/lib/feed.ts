@@ -1,5 +1,5 @@
 import { posts, type PostConfig } from "@/screens/post/data";
-import { SITE_AUTHOR, SITE_URL } from "@/lib/site";
+import { SITE_AUTHOR } from "@/lib/site";
 
 /**
  * Builds a Yandex Direct YML catalog feed where each post is treated as a
@@ -9,10 +9,14 @@ import { SITE_AUTHOR, SITE_URL } from "@/lib/site";
  * https://yandex.ru/support/direct/ru/unified-performance-campaign/create-catalogs
  */
 
+/** Origin used for every link in the feed (posts live on the blog subdomain). */
+const FEED_SITE_URL =
+  process.env.NEXT_PUBLIC_FEED_SITE_URL ?? "https://blog.burmistrov.link";
+
 const FEED_CURRENCY = "RUB";
 const FEED_CATEGORY_ID = 1;
 const FEED_CATEGORY_NAME = "Статьи";
-const FEED_FALLBACK_IMAGE = `${SITE_URL}/author-portrait.png`;
+const FEED_FALLBACK_IMAGE = `${FEED_SITE_URL}/author-portrait.png`;
 
 function escapeXml(value: string): string {
   return value
@@ -33,14 +37,24 @@ function clean(value: string): string {
 }
 
 function postUrl(post: PostConfig): string {
-  return `${SITE_URL}/post/${post.slug}`;
+  return `${FEED_SITE_URL}/post/${post.slug}`;
 }
 
 function postImage(post: PostConfig): string {
   if (!post.feedImage) return FEED_FALLBACK_IMAGE;
   return post.feedImage.startsWith("http")
     ? post.feedImage
-    : `${SITE_URL}${post.feedImage}`;
+    : `${FEED_SITE_URL}${post.feedImage}`;
+}
+
+/** Ad headline: feed-specific copy if set, otherwise the article title. */
+function postName(post: PostConfig): string {
+  return post.feedTitle ?? post.article.title;
+}
+
+/** Ad text: feed-specific copy if set, otherwise the article subtitle. */
+function postDescription(post: PostConfig): string {
+  return post.feedDescription ?? post.article.subtitle;
 }
 
 /** Yandex expects `yyyy-MM-dd HH:mm` for the `date` attribute. */
@@ -71,9 +85,9 @@ function renderOffer(post: PostConfig): string {
   lines.push(
     `        <categoryId>${FEED_CATEGORY_ID}</categoryId>`,
     `        <picture>${clean(postImage(post))}</picture>`,
-    `        <name>${clean(post.article.title)}</name>`,
+    `        <name>${clean(postName(post))}</name>`,
     `        <vendor>${clean(SITE_AUTHOR)}</vendor>`,
-    `        <description>${clean(post.article.subtitle)}</description>`,
+    `        <description>${clean(postDescription(post))}</description>`,
     `        <collectionId>${clean(post.slug)}</collectionId>`,
     `      </offer>`,
   );
@@ -85,8 +99,8 @@ function renderCollection(post: PostConfig): string {
     `      <collection id="${clean(post.slug)}" available="true">`,
     `        <url>${clean(postUrl(post))}</url>`,
     `        <picture>${clean(postImage(post))}</picture>`,
-    `        <name>${clean(post.article.title)}</name>`,
-    `        <description>${clean(post.article.subtitle)}</description>`,
+    `        <name>${clean(postName(post))}</name>`,
+    `        <description>${clean(postDescription(post))}</description>`,
     `      </collection>`,
   ].join("\n");
 }
@@ -100,7 +114,7 @@ export function buildYandexFeed(now: Date = new Date()): string {
   <shop>
     <name>${clean(SITE_AUTHOR)}</name>
     <company>${clean(SITE_AUTHOR)}</company>
-    <url>${clean(SITE_URL)}</url>
+    <url>${clean(FEED_SITE_URL)}</url>
     <currencies>
       <currency id="${FEED_CURRENCY}" rate="1"/>
     </currencies>

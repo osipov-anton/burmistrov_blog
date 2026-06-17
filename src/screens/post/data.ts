@@ -37,6 +37,10 @@ export type PostConfig = {
   slug: string;
   layout: PostLayout;
   article: typeof article;
+  /** Ad headline for the Yandex catalog feed (≤56 chars). Falls back to article.title. */
+  feedTitle?: string;
+  /** Ad text for the Yandex catalog feed (≤81 chars). Falls back to article.subtitle. */
+  feedDescription?: string;
   /** Public path to the catalog/feed image, e.g. "/og/slop.png". */
   feedImage?: string;
   /** Minimal price for the Yandex product feed offer, in RUB. */
@@ -48,6 +52,9 @@ const slopPishutLyudiPost: PostConfig = {
   slug: "slop-pishut-lyudi",
   layout: "slop-pishut-lyudi",
   article: slopArticle,
+  feedTitle: "Машина не виновата: кто плодит ИИ-слоп",
+  feedDescription:
+    "Что говорят Nature, Science и MIT о том, почему яркая ложь побеждает правду.",
 };
 
 const moneyAccessPost: PostConfig = {
@@ -55,6 +62,9 @@ const moneyAccessPost: PostConfig = {
   slug: "money-access",
   layout: "money-access",
   article: moneyAccessArticle,
+  feedTitle: "Деньги покупают доступ — остальное решает голова",
+  feedDescription:
+    "Как доступ к людям, книгам и поездкам превращается в деньги — и что решает.",
 };
 
 const wellnessEconomyPost: PostConfig = {
@@ -62,6 +72,9 @@ const wellnessEconomyPost: PostConfig = {
   slug: "wellness-economy",
   layout: "wellness-economy",
   article,
+  feedTitle: "Почему спать по 4 часа больше не престижно",
+  feedDescription:
+    "Новые веяния в индустрии здоровья и «Великое разделение» правил велнеса.",
 };
 
 const aiVsFatPost: PostConfig = {
@@ -69,6 +82,9 @@ const aiVsFatPost: PostConfig = {
   slug: "ai-vs-fat",
   layout: "ai-vs-fat",
   article: aiVsFatArticle,
+  feedTitle: "Нельзя похудеть, отправляя боту фото еды",
+  feedDescription:
+    "Почему трекинг тарелок через нейросеть проваливается — и чего ИИ не видит.",
 };
 
 const fromResentmentPost: PostConfig = {
@@ -76,6 +92,9 @@ const fromResentmentPost: PostConfig = {
   slug: "from-resentment",
   layout: "from-resentment",
   article: fromResentmentArticle,
+  feedTitle: "Как выйти из обиды: инструкция для взрослых",
+  feedDescription:
+    "Обида — это регресс в детскую позицию. Как вернуть себе позицию взрослого.",
 };
 
 export const posts: PostConfig[] = [
