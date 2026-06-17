@@ -3,9 +3,11 @@ import { currentPostId, getPostById, type PostConfig, type PostId, type PostLayo
 import { AiVsFatPost } from "./posts/ai-vs-fat-post";
 import { FromResentmentPost } from "./posts/from-resentment-post";
 import { MoneyAccessPost } from "./posts/money-access-post";
+import { SlopPishutLyudiPost } from "./posts/slop-pishut-lyudi-post";
 import { WellnessEconomyPost } from "./posts/wellness-economy-post";
 
 const postLayouts: Record<PostLayout, ComponentType<{ post: PostConfig }>> = {
+  "slop-pishut-lyudi": SlopPishutLyudiPost,
   "money-access": MoneyAccessPost,
   "wellness-economy": WellnessEconomyPost,
   "ai-vs-fat": AiVsFatPost,

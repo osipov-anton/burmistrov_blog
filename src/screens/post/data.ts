@@ -1,6 +1,7 @@
 import { aiVsFatArticle } from "./posts/ai-vs-fat";
 import { fromResentmentArticle } from "./posts/from-resentment";
 import { moneyAccessArticle } from "./posts/money-access";
+import { slopArticle } from "./posts/slop-pishut-lyudi";
 
 export const TELEGRAM_POST_URL = "https://t.me/Pradazhizny/328";
 export const TELEGRAM_POST_2_URL = "https://t.me/Pradazhizny/329";
@@ -19,11 +20,13 @@ export const article = {
 };
 
 export type PostId =
+  | "slop-pishut-lyudi"
   | "money-access"
   | "wellness-economy"
   | "ai-vs-fat"
   | "from-resentment";
 export type PostLayout =
+  | "slop-pishut-lyudi"
   | "money-access"
   | "wellness-economy"
   | "ai-vs-fat"
@@ -34,6 +37,17 @@ export type PostConfig = {
   slug: string;
   layout: PostLayout;
   article: typeof article;
+  /** Public path to the catalog/feed image, e.g. "/og/slop.png". */
+  feedImage?: string;
+  /** Minimal price for the Yandex product feed offer, in RUB. */
+  feedPrice?: number;
+};
+
+const slopPishutLyudiPost: PostConfig = {
+  id: "slop-pishut-lyudi",
+  slug: "slop-pishut-lyudi",
+  layout: "slop-pishut-lyudi",
+  article: slopArticle,
 };
 
 const moneyAccessPost: PostConfig = {
@@ -65,6 +79,7 @@ const fromResentmentPost: PostConfig = {
 };
 
 export const posts: PostConfig[] = [
+  slopPishutLyudiPost,
   moneyAccessPost,
   wellnessEconomyPost,
   aiVsFatPost,
@@ -72,13 +87,14 @@ export const posts: PostConfig[] = [
 ];
 
 const postsById: Record<PostId, PostConfig> = {
+  "slop-pishut-lyudi": slopPishutLyudiPost,
   "money-access": moneyAccessPost,
   "wellness-economy": wellnessEconomyPost,
   "ai-vs-fat": aiVsFatPost,
   "from-resentment": fromResentmentPost,
 };
 
-export const currentPostId: PostId = "money-access";
+export const currentPostId: PostId = "slop-pishut-lyudi";
 export const currentPost = postsById[currentPostId];
 
 export function getPostById(id: PostId) {
