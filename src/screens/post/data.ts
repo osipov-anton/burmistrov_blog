@@ -120,18 +120,6 @@ export function getPostById(id: PostId) {
   return postsById[id];
 }
 
-export const consultationRoles = [
-  "CEO / Владелец",
-  "Топ-менеджер",
-  "Руководитель",
-  "Специалист",
-];
-
-export const consultationVisitTypes = [
-  { id: "first", label: "Первая встреча", price: "Бесплатно" },
-  { id: "repeat", label: "Повторная встреча", price: "20\u00A0000\u00A0₽ / час" },
-];
-
 export const authorBio =
   "Бизнес-консультант, executive-коуч и\u00A0лектор (Eduson, Сколтех, ВШЭ). 15\u00A0лет строит компании и\u00A0управляет командами. В\u00A0канале @Pradazhizny\u00A0— о\u00A0физиологии лидера, устойчивом бизнесе и\u00A0новой экономике здоровья.";
 

@@ -1,17 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
+import { useEffect, useRef, type ReactNode, type RefObject } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useSpring } from "framer-motion";
-import { ArrowDown, ArrowRight, ArrowUpRight, CalendarCheck, Clock, Eye, Send } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Clock, Eye, Mail, Send } from "lucide-react";
 import { reachGoal } from "@/lib/analytics";
 import authorFull from "../../../../public/author-full.png";
 import authorPortrait from "../../../../public/author-portrait.png";
 import { TELEGRAM_CHANNEL_URL, authorBio, type PostConfig } from "../data";
-import { ConsultationWidget } from "./consultation-widget";
 import { MorePosts } from "./more-posts";
 import { Reveal } from "./reveal";
+import { SubscribeForm } from "./subscribe-form";
 
 export type PostFooterLink = {
   href: string;
@@ -27,12 +27,15 @@ type PostShellProps = {
 
 export function PostShell({ post, sources, footerLinks, children }: PostShellProps) {
   const { article } = post;
-  const [booking, setBooking] = useState(false);
-  const openBooking = () => setBooking(true);
   const scrollToArticle = () => {
     document
       .getElementById("article-start")
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  const scrollToSubscribe = () => {
+    document
+      .getElementById("subscribe")
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
   const { scrollYProgress } = useScroll();
@@ -72,28 +75,26 @@ export function PostShell({ post, sources, footerLinks, children }: PostShellPro
         className="fixed inset-x-0 top-0 z-50 h-[3px] origin-left bg-[#BFC4CC]"
       />
 
-      <PostHeader author={article.author} onBookingOpen={openBooking} />
+      <PostHeader author={article.author} onSubscribeClick={scrollToSubscribe} />
 
       <main className="relative z-10 mx-auto w-full max-w-3xl px-5 md:px-8">
         <PostHero post={post} onReadClick={scrollToArticle} />
         {children}
-        <AuthorConsultationCard post={post} onBookingOpen={openBooking} />
+        <AuthorSubscribeCard post={post} />
         <MorePosts currentPostId={post.id} />
       </main>
 
       <PostFooter post={post} sources={sources} footerLinks={footerLinks} finishRef={finishRef} />
-
-      <ConsultationWidget open={booking} onClose={() => setBooking(false)} />
     </div>
   );
 }
 
 function PostHeader({
   author,
-  onBookingOpen,
+  onSubscribeClick,
 }: {
   author: string;
-  onBookingOpen: () => void;
+  onSubscribeClick: () => void;
 }) {
   return (
     <header className="fixed inset-x-0 top-0 z-40 flex items-center justify-between border-b border-white/5 bg-[#0c0c0d]/85 px-5 py-4 backdrop-blur-md md:border-transparent md:bg-gradient-to-b md:from-[#0c0c0d] md:to-transparent md:px-10 md:backdrop-blur-none">
@@ -104,11 +105,11 @@ function PostHeader({
         {author}
       </Link>
       <button
-        onClick={onBookingOpen}
+        onClick={onSubscribeClick}
         className="inline-flex items-center gap-2 rounded-full bg-[#BFC4CC] px-4 py-2 text-xs font-semibold text-[#0c0c0d] shadow-lg shadow-black/30 transition-transform hover:scale-[1.03] active:scale-95"
       >
-        <CalendarCheck size={13} strokeWidth={2} />
-        Записаться
+        <Mail size={13} strokeWidth={2} />
+        Подписаться
       </button>
     </header>
   );
@@ -182,17 +183,11 @@ function PostHero({ post, onReadClick }: { post: PostConfig; onReadClick: () => 
   );
 }
 
-function AuthorConsultationCard({
-  post,
-  onBookingOpen,
-}: {
-  post: PostConfig;
-  onBookingOpen: () => void;
-}) {
+function AuthorSubscribeCard({ post }: { post: PostConfig }) {
   const { article } = post;
 
   return (
-    <section className="border-t border-white/10 py-16 md:py-24">
+    <section id="subscribe" className="scroll-mt-24 border-t border-white/10 py-16 md:py-24">
       <Reveal>
         <div className="overflow-hidden rounded-[2rem] border border-white/10">
           <div className="p-7 md:p-10">
@@ -235,28 +230,14 @@ function AuthorConsultationCard({
 
           <div className="border-t border-white/10 bg-white/[0.03] p-7 md:p-10">
             <h3 className="max-w-lg text-2xl font-semibold leading-tight tracking-tight md:text-3xl">
-              Личная консультация
+              {"Новые статьи\u00A0— на\u00A0почту"}
             </h3>
             <p className="mt-4 max-w-md text-base leading-relaxed text-[#ece9e3]/60">
-              {"Разбираем устойчивость, выгорание и\u00A0рост бизнеса\u00A0— предметно, под вашу ситуацию."}
+              {"Оставьте почту\u00A0— и\u00A0получайте свежие материалы, как только они выходят."}
             </p>
 
-            <div className="mt-8 flex flex-col items-start gap-4">
-              <button
-                onClick={onBookingOpen}
-                className="group inline-flex h-12 items-center justify-center gap-2.5 rounded-full bg-[#BFC4CC] px-7 text-sm font-semibold text-[#0c0c0d] transition-transform hover:scale-[1.02] active:scale-95"
-              >
-                <CalendarCheck size={16} strokeWidth={2} />
-                Записаться на консультацию
-                <ArrowRight
-                  size={16}
-                  strokeWidth={2}
-                  className="transition-transform group-hover:translate-x-1"
-                />
-              </button>
-              <span className="text-sm text-[#ece9e3]/45">
-                {"Несколько вопросов о\u00A0задаче\u00A0— подтверждение придёт на\u00A0почту."}
-              </span>
+            <div className="mt-8">
+              <SubscribeForm source={post.slug} />
             </div>
           </div>
         </div>
