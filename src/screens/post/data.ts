@@ -1,4 +1,5 @@
 import { aiVsFatArticle } from "./posts/ai-vs-fat";
+import { behavioralWealthArticle } from "./posts/behavioral-wealth";
 import { fromResentmentArticle } from "./posts/from-resentment";
 import { moneyAccessArticle } from "./posts/money-access";
 import { slopArticle } from "./posts/slop-pishut-lyudi";
@@ -20,12 +21,14 @@ export const article = {
 };
 
 export type PostId =
+  | "behavioral-wealth"
   | "slop-pishut-lyudi"
   | "money-access"
   | "wellness-economy"
   | "ai-vs-fat"
   | "from-resentment";
 export type PostLayout =
+  | "behavioral-wealth"
   | "slop-pishut-lyudi"
   | "money-access"
   | "wellness-economy"
@@ -45,6 +48,16 @@ export type PostConfig = {
   feedImage?: string;
   /** Minimal price for the Yandex product feed offer, in RUB. */
   feedPrice?: number;
+};
+
+const behavioralWealthPost: PostConfig = {
+  id: "behavioral-wealth",
+  slug: "behavioral-wealth",
+  layout: "behavioral-wealth",
+  article: behavioralWealthArticle,
+  feedTitle: "Бедные и богатые — это модель поведения",
+  feedDescription:
+    "Богатство определяет не доход, а автоматическая система, которая копит за вас.",
 };
 
 const slopPishutLyudiPost: PostConfig = {
@@ -98,6 +111,7 @@ const fromResentmentPost: PostConfig = {
 };
 
 export const posts: PostConfig[] = [
+  behavioralWealthPost,
   slopPishutLyudiPost,
   moneyAccessPost,
   wellnessEconomyPost,
@@ -106,6 +120,7 @@ export const posts: PostConfig[] = [
 ];
 
 const postsById: Record<PostId, PostConfig> = {
+  "behavioral-wealth": behavioralWealthPost,
   "slop-pishut-lyudi": slopPishutLyudiPost,
   "money-access": moneyAccessPost,
   "wellness-economy": wellnessEconomyPost,
