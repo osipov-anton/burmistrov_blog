@@ -50,6 +50,23 @@ const JOY_PATH = joyPath();
 // Debt appears only at the moment of purchase, then stays flat and persistent.
 const DEBT_PATH = `M ${X_PEAK} ${DEBT_Y} L ${X_END} ${DEBT_Y}`;
 
+function LineSwatch({ color, dashed = false }: { color: string; dashed?: boolean }) {
+  return (
+    <svg width="22" height="8" viewBox="0 0 22 8" aria-hidden className="shrink-0">
+      <line
+        x1="1"
+        y1="4"
+        x2="21"
+        y2="4"
+        stroke={color}
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeDasharray={dashed ? "3 4" : undefined}
+      />
+    </svg>
+  );
+}
+
 export function HedonicTreadmill({
   joyLabel,
   debtLabel,
@@ -58,12 +75,12 @@ export function HedonicTreadmill({
   return (
     <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#111112] p-6 md:p-8">
       <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-[#ece9e3]/55">
-        <span className="inline-flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: JOY }} />
+        <span className="inline-flex items-center gap-2">
+          <LineSwatch color={JOY} />
           {joyLabel}
         </span>
-        <span className="inline-flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: DEBT }} />
+        <span className="inline-flex items-center gap-2">
+          <LineSwatch color={DEBT} dashed />
           {debtLabel}
         </span>
       </div>
@@ -97,18 +114,18 @@ export function HedonicTreadmill({
           strokeDasharray="2 4"
         />
 
-        {/* Debt — appears at purchase, then flat and persistent */}
+        {/* Debt — appears at purchase, then flat and persistent (dashed = ongoing) */}
         <motion.path
           d={DEBT_PATH}
           fill="none"
           stroke={DEBT}
           strokeWidth="2.5"
           strokeLinecap="round"
-          strokeDasharray="2 7"
-          initial={{ pathLength: 0, opacity: 0 }}
-          whileInView={{ pathLength: 1, opacity: 1 }}
+          strokeDasharray="3 5"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-15% 0px" }}
-          transition={{ duration: 1, ease: "easeInOut" }}
+          transition={{ duration: 0.8, delay: 0.5, ease: "easeInOut" }}
         />
 
         {/* Joy — spike then decay */}
