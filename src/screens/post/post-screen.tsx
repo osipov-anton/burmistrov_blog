@@ -5,10 +5,12 @@ import { BehavioralWealthPost } from "./posts/behavioral-wealth-post";
 import { ChtoDalshePost } from "./posts/chto-dalshe-post";
 import { FromResentmentPost } from "./posts/from-resentment-post";
 import { MoneyAccessPost } from "./posts/money-access-post";
+import { NalogNaStydPost } from "./posts/nalog-na-styd-post";
 import { SlopPishutLyudiPost } from "./posts/slop-pishut-lyudi-post";
 import { WellnessEconomyPost } from "./posts/wellness-economy-post";
 
 const postLayouts: Record<PostLayout, ComponentType<{ post: PostConfig }>> = {
+  "nalog-na-styd": NalogNaStydPost,
   "chto-dalshe": ChtoDalshePost,
   "behavioral-wealth": BehavioralWealthPost,
   "slop-pishut-lyudi": SlopPishutLyudiPost,

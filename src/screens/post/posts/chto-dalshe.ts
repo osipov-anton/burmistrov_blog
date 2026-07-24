@@ -1,4 +1,4 @@
-`export const CHTO_DALSHE_POST_URL = "https://t.me/Pradazhizny/345";
+export const CHTO_DALSHE_POST_URL = "https://t.me/Pradazhizny/345";
 
 export type SourceRef = { label: string; href: string };
 

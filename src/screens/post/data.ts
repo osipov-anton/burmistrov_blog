@@ -3,6 +3,7 @@ import { behavioralWealthArticle } from "./posts/behavioral-wealth";
 import { chtoDalsheArticle } from "./posts/chto-dalshe";
 import { fromResentmentArticle } from "./posts/from-resentment";
 import { moneyAccessArticle } from "./posts/money-access";
+import { nalogNaStydArticle } from "./posts/nalog-na-styd";
 import { slopArticle } from "./posts/slop-pishut-lyudi";
 
 export const TELEGRAM_POST_URL = "https://t.me/Pradazhizny/328";
@@ -22,6 +23,7 @@ export const article = {
 };
 
 export type PostId =
+  | "nalog-na-styd"
   | "chto-dalshe"
   | "behavioral-wealth"
   | "slop-pishut-lyudi"
@@ -30,6 +32,7 @@ export type PostId =
   | "ai-vs-fat"
   | "from-resentment";
 export type PostLayout =
+  | "nalog-na-styd"
   | "chto-dalshe"
   | "behavioral-wealth"
   | "slop-pishut-lyudi"
@@ -51,6 +54,16 @@ export type PostConfig = {
   feedImage?: string;
   /** Minimal price for the Yandex product feed offer, in RUB. */
   feedPrice?: number;
+};
+
+const nalogNaStydPost: PostConfig = {
+  id: "nalog-na-styd",
+  slug: "nalog-na-styd",
+  layout: "nalog-na-styd",
+  article: nalogNaStydArticle,
+  feedTitle: "Налог на стыд: $2,35 млрд из аптек в телефоны",
+  feedDescription:
+    "Hims продали мужчинам возможность не стыдиться. Почему эта ниша пустует в РФ.",
 };
 
 const chtoDalshePost: PostConfig = {
@@ -124,6 +137,7 @@ const fromResentmentPost: PostConfig = {
 };
 
 export const posts: PostConfig[] = [
+  nalogNaStydPost,
   chtoDalshePost,
   behavioralWealthPost,
   slopPishutLyudiPost,
@@ -134,6 +148,7 @@ export const posts: PostConfig[] = [
 ];
 
 const postsById: Record<PostId, PostConfig> = {
+  "nalog-na-styd": nalogNaStydPost,
   "chto-dalshe": chtoDalshePost,
   "behavioral-wealth": behavioralWealthPost,
   "slop-pishut-lyudi": slopPishutLyudiPost,
