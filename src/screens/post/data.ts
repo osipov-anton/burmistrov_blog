@@ -1,5 +1,6 @@
 import { aiVsFatArticle } from "./posts/ai-vs-fat";
 import { behavioralWealthArticle } from "./posts/behavioral-wealth";
+import { chtoDalsheArticle } from "./posts/chto-dalshe";
 import { fromResentmentArticle } from "./posts/from-resentment";
 import { moneyAccessArticle } from "./posts/money-access";
 import { slopArticle } from "./posts/slop-pishut-lyudi";
@@ -21,6 +22,7 @@ export const article = {
 };
 
 export type PostId =
+  | "chto-dalshe"
   | "behavioral-wealth"
   | "slop-pishut-lyudi"
   | "money-access"
@@ -28,6 +30,7 @@ export type PostId =
   | "ai-vs-fat"
   | "from-resentment";
 export type PostLayout =
+  | "chto-dalshe"
   | "behavioral-wealth"
   | "slop-pishut-lyudi"
   | "money-access"
@@ -48,6 +51,16 @@ export type PostConfig = {
   feedImage?: string;
   /** Minimal price for the Yandex product feed offer, in RUB. */
   feedPrice?: number;
+};
+
+const chtoDalshePost: PostConfig = {
+  id: "chto-dalshe",
+  slug: "chto-dalshe",
+  layout: "chto-dalshe",
+  article: chtoDalsheArticle,
+  feedTitle: "Не знаешь, что дальше? Никто не знает",
+  feedDescription:
+    "Почему быстрые советы не работают — и 15 книг по трём доменам, чтобы расти.",
 };
 
 const behavioralWealthPost: PostConfig = {
@@ -111,6 +124,7 @@ const fromResentmentPost: PostConfig = {
 };
 
 export const posts: PostConfig[] = [
+  chtoDalshePost,
   behavioralWealthPost,
   slopPishutLyudiPost,
   moneyAccessPost,
@@ -120,6 +134,7 @@ export const posts: PostConfig[] = [
 ];
 
 const postsById: Record<PostId, PostConfig> = {
+  "chto-dalshe": chtoDalshePost,
   "behavioral-wealth": behavioralWealthPost,
   "slop-pishut-lyudi": slopPishutLyudiPost,
   "money-access": moneyAccessPost,
